@@ -10,5 +10,9 @@
     <a href="clientindex.php">Home</a>
     <a href="clientcal.php">Schedule an Appointment</a>
     <a href="index.php">Log Out</a>
+    <?php
+        session_start();
+        echo $_SESSION["user"];
+    ?>
 </body>
 </html>

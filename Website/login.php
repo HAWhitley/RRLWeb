@@ -10,7 +10,7 @@
     <a href="index.html">Back to Home</a>
     <br>
     <!-- Existing users -->
-    <form action='<?=$_SERVER['PHP_SELF'] ?>' method='post'>
+    <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
         <h4>Log In</h4>
         <label>Email: </label>
         <input type='text' id='user' name='user'> <br>
@@ -19,6 +19,7 @@
         <input type='submit' id='login' name='login' value='Log In'> <br> <br>
     </form>
     <?php
+        session_start();
         $servername = "localhost";
         $username = "user";
         $passwd = "CSU-CSCI490rrl";
@@ -34,10 +35,12 @@
 
         if(isset($logon)) {
             if($user != NULL && $auth != NULL) {
+                $_SESSION["user"] = $user;
                 $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
                 $getinfo = mysqli_query($conn, $authenticate);
                 if(mysqli_num_rows($getinfo) == 0) {
                     echo "<center> Account does not exist under this email </center>";
+                    session_destroy();
                 }
                 else {
                     
@@ -52,12 +55,14 @@
                         }
                         else {
                             echo "<center> Incorrect Password </center><br><br>";
+                            session_destroy();
                         }
                     }
                 }
             }
             else {
                 echo "<center> Please enter information in all fields </center><br><br>";
+                session_destroy();
             }
         }
         mysqli_close($conn);
@@ -87,6 +92,7 @@
         if(!$conn) {
             die("Connection failed: " . $conn->connect_error);
         }
+        
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
         $email = $_POST['email'];

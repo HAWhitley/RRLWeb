@@ -19,5 +19,9 @@
         voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat <br>
         non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br>
     </center>
+    <?php
+        session_start();
+        echo $_SESSION["user"];
+    ?>
 </body>
 </html>
