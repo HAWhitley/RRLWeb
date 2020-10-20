@@ -34,7 +34,7 @@
 
         if(isset($logon)) {
             if($user != NULL && $auth != NULL) {
-                $authenticate = "SELECT email, password FROM user WHERE email='" . $user . "'";
+                $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
                 $getinfo = mysqli_query($conn, $authenticate);
                 if(mysqli_num_rows($getinfo) == 0) {
                     echo "<center> Account does not exist under this email </center>";
@@ -43,7 +43,12 @@
                     
                     while($row = mysqli_fetch_assoc($getinfo)) {
                         if($row["password"] == $auth) {
-                            echo "<center> Log In Successful </center><br><br>";
+                            if($row["privilege"] == 'a') {
+                                echo "<meta http-equiv='refresh' content='time; URL=adminindex.php'/>";
+                            }
+                            else if($row["privilege"] == 'c') {
+                                echo "<meta http-equiv='refresh' content='time; URL=clientindex.php'/>";
+                            }
                         }
                         else {
                             echo "<center> Incorrect Password </center><br><br>";
