@@ -55,6 +55,7 @@
                 echo "<center> Please enter information in all fields </center><br><br>";
             }
         }
+        mysqli_close($conn);
     ?>
 
     <!-- New Users -->
@@ -114,7 +115,7 @@
                 echo "<center> Please enter information in all fields </center><br><br>";
             }
         }
-
+        mysqli_close($conn);
     ?>
 </body>
 </html>
