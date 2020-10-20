@@ -74,18 +74,26 @@
         $pass = $_POST['password'];
         $priv = 'c';
         $active = 'a';
+        $skill = 'b';
         $button = $_POST['submit'];
 
         if(isset($button)) {
             if($firstname != NULL && $lastname != NULL && $email != NULL && $pass != NULL && $phone != NULL) {
-                $enter = "INSERT INTO user (firstName, lastName, email, password, phone, active, privilege)
-                    VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
-                    '" . $pass . "', '" . $phone . "', '" . $active . "', '" . $priv . "')";
-                if($conn->query($enter)) {
-                    echo "<center> Account Successfully Created. Please Log In </center><br><br>";
+                $search = "SELECT email FROM user WHERE email='" . $email . "'";
+                $result = mysqli_query($conn, $search);
+                if(mysqli_num_rows($result) == 0) {
+                    $enter = "INSERT INTO user (firstName, lastName, email, password, phone, skill, active, privilege)
+                        VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
+                        '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
+                    if($conn->query($enter)) {
+                        echo "<center> Account Successfully Created. Please Log In </center><br><br>";
+                    }
+                    else {
+                        echo "<center> Error creating account </center><br><br>";
+                    }
                 }
                 else {
-                    echo "<center> Error creating account </center><br><br>";
+                    echo "<center> Account already exists under this email </center><br><br>";
                 }
             }
             else {
