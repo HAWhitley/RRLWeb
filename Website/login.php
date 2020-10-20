@@ -34,7 +34,22 @@
 
         if(isset($logon)) {
             if($user != NULL && $auth != NULL) {
-                echo "<center> Log In Successful </center><br><br>";
+                $authenticate = "SELECT email, password FROM user WHERE email='" . $user . "'";
+                $getinfo = mysqli_query($conn, $authenticate);
+                if(mysqli_num_rows($getinfo) == 0) {
+                    echo "<center> Account does not exist under this email </center>";
+                }
+                else {
+                    
+                    while($row = mysqli_fetch_assoc($getinfo)) {
+                        if($row["password"] == $auth) {
+                            echo "<center> Log In Successful </center><br><br>";
+                        }
+                        else {
+                            echo "<center> Incorrect Password </center><br><br>";
+                        }
+                    }
+                }
             }
             else {
                 echo "<center> Please enter information in all fields </center><br><br>";
@@ -66,7 +81,6 @@
         if(!$conn) {
             die("Connection failed: " . $conn->connect_error);
         }
-
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
         $email = $_POST['email'];
