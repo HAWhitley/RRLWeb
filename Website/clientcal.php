@@ -14,6 +14,6 @@
         session_start();
         echo $_SESSION["user"];
     ?>
-    <iframe src="https://www.picktime.com/raesridinglessons" width="100%" height="1300"></iframe>
+    <iframe src="https://www.picktime.com/raesridinglessons" width="100%" height="1050"></iframe>
 </body>
 </html>
