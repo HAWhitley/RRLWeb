@@ -104,92 +104,92 @@
                     <input type='submit' class="button" name='submit' value='Sign Up'> <br> <br>
                 </div>
             </form>
+            <?php
+                session_start();
+                $servername = "localhost";
+                $username = "user";
+                $passwd = "CSU-CSCI490rrl";
+                $database = "userauth";
+                $conn = new mysqli($servername, $username, $passwd, $database);
+                if(!$conn) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $user = $_POST['user'];
+                $auth = $_POST['passwd'];
+                $logon = $_POST['login'];
+
+                if(isset($logon)) {
+                    if($user != NULL && $auth != NULL) {
+                        $_SESSION["user"] = $user;
+                        $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
+                        $getinfo = mysqli_query($conn, $authenticate);
+                        if(mysqli_num_rows($getinfo) == 0) {
+                            echo "<center> Account does not exist under this email </center>";
+                            session_destroy();
+                        }
+                        else {
+
+                            while($row = mysqli_fetch_assoc($getinfo)) {
+                                if($row["password"] == $auth) {
+                                    if($row["privilege"] == 'a') {
+                                        echo "<meta http-equiv='refresh' content='time; URL=adminindex.php'/>";
+                                    }
+                                    else if($row["privilege"] == 'c') {
+                                        echo "<meta http-equiv='refresh' content='time; URL=clientindex.php'/>";
+                                    }
+                                }
+                                else {
+                                    echo "<center> Incorrect Password </center><br><br>";
+                                    session_destroy();
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        echo "<center> Please enter information in all fields </center><br><br>";
+                        session_destroy();
+                    }
+                }
+
+                $firstname = $_POST['firstname'];
+                $lastname = $_POST['lastname'];
+                $email = $_POST['email'];
+                $phone = $_POST['phone'];
+                $pass = $_POST['password'];
+                $priv = 'c';
+                $active = 'a';
+                $button = $_POST['submit'];
+
+                if(isset($button)) {
+                    if($firstname != NULL && $lastname != NULL && $email != NULL && $pass != NULL && $phone != NULL) {
+                        $search = "SELECT email FROM user WHERE email='" . $email . "'";
+                        $result = mysqli_query($conn, $search);
+                        if(mysqli_num_rows($result) == 0) {
+                            $enter = "INSERT INTO user (firstName, lastName, email, password, phone, skill, active, privilege)
+                                VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
+                                '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
+                            if($conn->query($enter)) {
+                                echo "<center> Account Successfully Created. Please Log In </center><br><br>";
+                            }
+                            else {
+                                echo "<center> Error creating account </center><br><br>";
+                            }
+                        }
+                        else {
+                            echo "<center> Account already exists under this email </center><br><br>";
+                        }
+                    }
+                    else {
+                        echo "<center> Please enter information in all fields </center><br><br>";
+                    }
+                }
+                mysqli_close($conn);
+            ?>
         </div>
         <footer id="footer">
             <p>hello</p>
         </footer>
     </div>
-    <?php
-        session_start();
-        $servername = "localhost";
-        $username = "user";
-        $passwd = "CSU-CSCI490rrl";
-        $database = "userauth";
-        $conn = new mysqli($servername, $username, $passwd, $database);
-        if(!$conn) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $user = $_POST['user'];
-        $auth = $_POST['passwd'];
-        $logon = $_POST['login'];
-
-        if(isset($logon)) {
-            if($user != NULL && $auth != NULL) {
-                $_SESSION["user"] = $user;
-                $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
-                $getinfo = mysqli_query($conn, $authenticate);
-                if(mysqli_num_rows($getinfo) == 0) {
-                    echo "<center> Account does not exist under this email </center>";
-                    session_destroy();
-                }
-                else {
-
-                    while($row = mysqli_fetch_assoc($getinfo)) {
-                        if($row["password"] == $auth) {
-                            if($row["privilege"] == 'a') {
-                                echo "<meta http-equiv='refresh' content='time; URL=adminindex.php'/>";
-                            }
-                            else if($row["privilege"] == 'c') {
-                                echo "<meta http-equiv='refresh' content='time; URL=clientindex.php'/>";
-                            }
-                        }
-                        else {
-                            echo "<center> Incorrect Password </center><br><br>";
-                            session_destroy();
-                        }
-                    }
-                }
-            }
-            else {
-                echo "<center> Please enter information in all fields </center><br><br>";
-                session_destroy();
-            }
-        }
-
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $pass = $_POST['password'];
-        $priv = 'c';
-        $active = 'a';
-        $button = $_POST['submit'];
-
-        if(isset($button)) {
-            if($firstname != NULL && $lastname != NULL && $email != NULL && $pass != NULL && $phone != NULL) {
-                $search = "SELECT email FROM user WHERE email='" . $email . "'";
-                $result = mysqli_query($conn, $search);
-                if(mysqli_num_rows($result) == 0) {
-                    $enter = "INSERT INTO user (firstName, lastName, email, password, phone, skill, active, privilege)
-                        VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
-                        '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
-                    if($conn->query($enter)) {
-                        echo "<center> Account Successfully Created. Please Log In </center><br><br>";
-                    }
-                    else {
-                        echo "<center> Error creating account </center><br><br>";
-                    }
-                }
-                else {
-                    echo "<center> Account already exists under this email </center><br><br>";
-                }
-            }
-            else {
-                echo "<center> Please enter information in all fields </center><br><br>";
-            }
-        }
-        mysqli_close($conn);
-    ?>
 </body>
 </html>
