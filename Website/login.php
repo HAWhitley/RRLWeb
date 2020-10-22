@@ -188,7 +188,8 @@
             ?>
         </div>
         <footer id="footer">
-            <p>hello</p>
+            <span><p></p></span
+            <span width="500px" height="100px" style="margin:auto; padding-top:50px"><a href="mailto:raesridinglessons@gmail.com" style="color:white">raesridinglessons@gmail.com</a> &emsp;&emsp; Phone: 123-456-7890 &emsp;&emsp; </span><span width="500px" height="100px" style="margin:auto; padding-top:25px"><a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a></span>
         </footer>
     </div>
 </body>
