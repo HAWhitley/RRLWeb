@@ -13,12 +13,13 @@
             margin-left: 15%;
             float: left;            
         }
-        input {
+        input:text,password {
             margin-right: 15%;
             float: right;
             font-size: 16pt;
             width: 300px;
         }
+
         .button {
             font-size: 16pt;
             padding:5px;
@@ -26,6 +27,7 @@
             color:white;
             background-color:#3a5a40;
         }
+
         /* The alert message box */
         .alert {
         padding: 20px;
@@ -34,6 +36,7 @@
         margin-bottom: 15px;
         float:top;
         }
+
         /* The close button */
         .closebtn {
         margin-left: 15px;
@@ -45,10 +48,12 @@
         cursor: pointer;
         transition: 0.3s;
         }
+
         /* When moving the mouse over the close button */
         .closebtn:hover {
         color: black;
         }
+
         #page-container {
         position: relative;
         min-height: 100vh;
@@ -84,24 +89,24 @@
                     <!--Log In-->
                     <h3>Log In</h3>
                     <label>Email: </label>
-                    <input type='text' id='user' name='user'> <br>
+                    <input type='text' name='user'> <br> <br>
                     <label>Password: </label>
-                    <input type='password' id='passwd' name='passwd'> <br> <br> 
-                    <input type='submit' class="button" name='login' value='Log In'> <br> <br>
+                    <input type='password' name='passwd'> <br> <br>  <br>
+                    <input type='submit' class="button" name='login' value='Log In'> <br> <br> <br>
 
                     <!--Sign Up-->
                     <h3>Sign Up</h3>
                     <label>First Name: </label>
-                    <input type='text' id='firstname' name='firstname' placeholder='John'> <br>
+                    <input type='text' name='firstname' placeholder='John'> <br> <br>
                     <label>Last Name: </label>
-                    <input type='text' id='lastname' name='lastname' placeholder='Doe'> <br>
+                    <input type='text' name='lastname' placeholder='Doe'> <br> <br>
                     <label>Email: </label>
-                    <input type='text' id='email' name='email' placeholder='123@example.com'> <br>
+                    <input type='text' name='email' placeholder='123@example.com'> <br> <br>
                     <label>Phone Number: </label>
-                    <input type='text' id='phone' name='phone'> <br>
+                    <input type='text' name='phone'> <br> <br>
                     <label>Password: </label>
-                    <input type='password' id='newpass' name='password'> <br> <br>
-                    <input type='submit' class="button" name='submit' value='Sign Up'> <br> <br>
+                    <input type='password' name='password'> <br> <br> <br>
+                    <input type='submit' class="button" name='submit' value='Sign Up'> <br> <br> <br>
                 </div>
             </form>
             <?php
@@ -188,8 +193,13 @@
             ?>
         </div>
         <footer id="footer">
-            <span><p></p></span
-            <span width="500px" height="100px" style="margin:auto; padding-top:50px"><a href="mailto:raesridinglessons@gmail.com" style="color:white">raesridinglessons@gmail.com</a> &emsp;&emsp; Phone: 123-456-7890 &emsp;&emsp; </span><span width="500px" height="100px" style="margin:auto; padding-top:25px"><a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a></span>
+            <p></p>
+            <div width="500px" height="100px" style="margin:auto; padding-top:50px">
+                <a href="mailto:raesridinglessons@gmail.com" style="color:white">raesridinglessons@gmail.com</a> 
+                &emsp;&emsp; Phone: 123-456-7890 &emsp;&emsp; 
+                <a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
+                <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
+            </div>
         </footer>
     </div>
 </body>
