@@ -77,10 +77,12 @@
             </div> -->
             <a href="index.php">
                 <img src="Images/RRL Logo-no bg.png" 
-                align="left" style="display: block; padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons" >
+                 style="display: block; padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons" >
             </a>
-	    <form style="width:40%; display:inline-block; padding-top: 150px" action="<?=$_SERVER['PHP_SELF']?>" method='post'>
-                <div style="background-color:#e7d5c5; padding: 10px">
+
+            
+	    <form style="width:40%; background-color:#e7d5c5; display:inline-block; padding-bottom:50px" action="<?=$_SERVER['PHP_SELF']?>" method='post'>
+                <div style="padding: 10px">
                     <!--Log In-->
                     <h3>Log In</h3>
                     <label>Email: </label>
