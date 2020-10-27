@@ -62,7 +62,7 @@
                     &emsp; &emsp; ~ &emsp; &emsp; 
                     <a class="nav" href="admincal.php">Manage Lessons</a>
                     &emsp; &emsp; ~ &emsp; &emsp;
-                    <a class="nav" href="listofclients.php">Clients</a>
+                    <a class="nav" href="listofclients.php">Manage Clients</a>
                     &emsp; &emsp; ~ &emsp; &emsp;
                     <a class="nav" href="listofadmin.php">Manage Admins</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
