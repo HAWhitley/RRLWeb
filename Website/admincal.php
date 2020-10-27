@@ -17,6 +17,7 @@
     <h2>This is the Administrator Calendar</h2>
     <a href="adminindex.php">Home</a>
     <a href="admincal.php">Schedule an Appointment</a>
+    <a href="clientlist.php">Client List</a>
     <a href="index.php">Log Out</a>
     <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
       <input type='submit' class="button" name='one' value='One on One Appointments'>

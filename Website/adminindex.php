@@ -10,6 +10,7 @@
     <h2>Rae's Riding Lessons</h2>
     <a href="adminindex.php">Home</a>
     <a href="admincal.php">Schedule an Appointment</a>
+    <a href="clientlist.php">Client List</a>
     <a href="index.php">Log Out</a>
     <center>
         <h4>About</h4>
