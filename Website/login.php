@@ -125,81 +125,79 @@
         </footer>
     </div>
     <?php
-		    session_start();
-                $servername = "localhost";
-                $username = "user";
-                $passwd = "CSU-CSCI490rrl";
+		session_start();
+        $servername = "localhost";
+        $username = "user";
+        $passwd = "CSU-CSCI490rrl";
 		$database = "userauth";
 		$conn = new mysqli($servername, $username, $passwd, $database);
 		if(!$conn) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-                $user = $_POST['user'];
-                $auth = $_POST['passwd'];
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $user = $_POST['user'];
+        $auth = $_POST['passwd'];
 		$logon = $_POST['login'];
 
-                if(isset($logon)) {
-                    if($user != NULL && $auth != NULL) {
-			$_SESSION["user"] = $user;
-			$authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
-			$getinfo = mysqli_query($conn, $authenticate);
+        if(isset($logon)) {
+            if($user != NULL && $auth != NULL) {
+                $_SESSION["user"] = $user;
+                $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
+                $getinfo = mysqli_query($conn, $authenticate);
 
-                        if(mysqli_num_rows($getinfo) == 0) {
-                            echo "Account does not exist under this email";
-                            session_destroy();
-                        }
-                        else {
-                            while($row = mysqli_fetch_assoc($getinfo)) {
-				if($row["password"] == $auth) {
-				    if($row["privilege"] == 'a') {
-                                        echo "<meta http-equiv='refresh' content='0; URL=adminindex.php'/>";
-                                    }
-                                    else if($row["privilege"] == 'c') {
-                                        echo "<meta http-equiv='refresh' content='0; URL=clientindex.php'/>";
-                                    }
-                                }
-                                else {
-                                    echo "Incorrect Password<br><br>";
-                                    session_destroy();
-                                }
+                if(mysqli_num_rows($getinfo) == 0) {
+                    echo "Account does not exist under this email";
+                    session_destroy();
+                }
+                else {
+                    while($row = mysqli_fetch_assoc($getinfo)) {
+                        if($row["password"] == $auth) {
+                            if($row["privilege"] == 'a') {
+                                echo "<meta http-equiv='refresh' content='0; URL=adminindex.php'/>";
+                            }
+                            else if($row["privilege"] == 'c') {
+                                echo "<meta http-equiv='refresh' content='0; URL=clientindex.php'/>";
                             }
                         }
+                        else {
+                                echo "Incorrect Password<br><br>";
+                                session_destroy();
+                        }
+                    }
+                }
+            }
+            else {
+                echo "Please enter information in all fields<br><br>";
+                session_destroy();
+            }
+        }
+
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $pass = $_POST['password'];
+        $priv = 'c';
+        $active = 'a';
+        $skill = 'b';
+        $button = $_POST['submit'];
+
+        if(isset($button)) {
+            if($firstname != NULL && $lastname != NULL && $email != NULL && $pass != NULL && $phone != NULL) {
+                $search = "SELECT email FROM user WHERE email='" . $email . "'";
+                $result = mysqli_query($conn, $search);
+                if(mysqli_num_rows($result) == 0) {
+                    $enter = "INSERT INTO user (firstName, lastName, email, password, phone, skill, active, privilege)
+                        VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
+                        '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
+                    if($conn->query($enter)) {
+                        echo "Account Successfully Created. Please Log In<br><br>";
                     }
                     else {
-                        echo "Please enter information in all fields<br><br>";
-                        session_destroy();
+                        echo "Error creating account<br><br>";
                     }
                 }
                 else {
-                $firstname = $_POST['firstname'];
-                $lastname = $_POST['lastname'];
-                $email = $_POST['email'];
-                $phone = $_POST['phone'];
-                $pass = $_POST['password'];
-                $priv = 'c';
-		$active = 'a';
-		$skill = 'b';
-                $button = $_POST['submit'];
-
-                if(isset($button)) {
-                    if($firstname != NULL && $lastname != NULL && $email != NULL && $pass != NULL && $phone != NULL) {
-                        $search = "SELECT email FROM user WHERE email='" . $email . "'";
-			$result = mysqli_query($conn, $search);
-			if(mysqli_num_rows($result) == 0) {
-                            $enter = "INSERT INTO user (firstName, lastName, email, password, phone, skill, active, privilege)
-                                VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
-                                '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
-                            if($conn->query($enter)) {
-                                echo "Account Successfully Created. Please Log In<br><br>";
-                            }
-                            else {
-                                echo "Error creating account<br><br>";
-                            }
-                        }
-                        else {
-                            echo "Account already exists under this email<br><br>";
-                        }
-                    }
+                    echo "Account already exists under this email<br><br>";
                 }
             }
             else {
@@ -233,6 +231,8 @@
                     }
                 }
                 mysqli_close($conn);
+            }
+        }
      ?>
 </body>
 </html>

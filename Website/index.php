@@ -144,7 +144,9 @@
                 <a href="index.php">
                     <img src="Images/RRL Logo-no bg.png" align="left" style="padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons">
                 </a>
-                <input type='button' class='button' value='Log In/Sign Up' href="login.php">
+                <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
+                    <input type='submit' class='button' name='login' value='Log In/Sign Up' href="login.php">
+                </form>
             </header>
             <br>
             <!-- slideshow -->
@@ -368,6 +370,12 @@
 
              </div>
     </div>
+    <?php
+        $login = $_POST['login'];
+        if(isset($login)) {
+            echo "<meta http-equiv='refresh' content='0; URL=login.php'/>";
+        }
+    ?>
 </form>
 </div>
     
