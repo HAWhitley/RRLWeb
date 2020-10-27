@@ -56,7 +56,9 @@
                 <a href="adminindex.php">
                     <img src="Images/RRL Logo-no bg.png" align="left" style="padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons">
                 </a>
-                <input type='button' class='button' value='Log In/Sign Up' href="login.php">
+                <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
+                    <input type='submit' class='button' name='login' value='Log Out' href="index.php">
+                </form>
                 <div style="padding-top: 50px; padding-right:150px; align:center; float:center">
                     <a class="nav" href="adminindex.php">Home</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
@@ -71,6 +73,56 @@
             </header>
             <br>
         </div>
+        <?php
+            session_start();
+            $servername = "localhost";
+            $username = "user";
+            $passwd = "CSU-CSCI490rrl";
+            $database = "userauth";
+            $conn = new mysqli($servername, $username, $passwd, $database);
+            if(!$conn) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            
+            $login = $_POST['login'];
+            if(isset($login)) {
+                echo "<meta http-equiv='refresh' content='0; URL=index.php'/>";
+            }
+
+            $authenticate = "SELECT * FROM user WHERE privilege='c'";
+            $getinfo = mysqli_query($conn, $authenticate);
+            echo "<br><br>";
+            if(mysqli_num_rows($getinfo) == 0) {
+                echo "There are no client accounts";
+            }
+            else {
+                while($row = mysqli_fetch_assoc($getinfo)) {
+                    if($row["privilege"] == "c") {
+                        echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
+                        echo $row["email"] . "<br>";
+                        echo $row["phone"] . "<br>";
+                        
+                        if($row["skill"] == "b") {
+                            echo "Beginner<br>";
+                        }
+                        else if($row["skill"] == "i") {
+                            echo "Intermediate<br>";
+                        }
+                        else if($row["skill"] == "a") {
+                            echo "Advanced<br>";
+                        }
+
+                        if($row["active"] == "a") {
+                            echo "Active<br>";
+                        } 
+                        else if($row["active"] == "i") {
+                            echo "Inactive<br>";
+                        }
+                        echo "<br>";
+                    }
+                }
+            }
+        ?>
         <footer id="footer">
             <p></p>
             <!-- <div width="500px" height="100px" style="margin:auto; padding-top:50px"> -->
@@ -83,9 +135,5 @@
             <!-- </div> -->
         </footer>
     </div>
-    <?php
-        session_start();
-        echo $_SESSION["admin"];
-    ?>
 </body>
 </html>
