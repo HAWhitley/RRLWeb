@@ -154,7 +154,9 @@
                 <a href="clientindex.php">
                     <img src="Images/RRL Logo-no bg.png" align="left" style="padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons">
                 </a>
-                <input type='button' class='button' value='Log In/Sign Up' href="login.php">
+                <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
+                    <input type='submit' class='button' name='login' value='Log Out' href="index.php">
+                </form>
                 <div style="padding-top: 50px; padding-right:150px; align:center; float:center">
                     <a class="nav" href="clientindex.php">Home</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
@@ -235,8 +237,10 @@
         </footer>
     </div>
     <?php
-        session_start();
-        echo $_SESSION["user"];
+        $login = $_POST['login'];
+        if(isset($login)) {
+            echo "<meta http-equiv='refresh' content='0; URL=index.php'/>";
+        }
     ?>
 </body>
 </html>

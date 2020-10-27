@@ -219,6 +219,12 @@
             <!-- </div> -->
         </footer>
     </div>
+    <?php
+        $login = $_POST['login'];
+        if(isset($login)) {
+            echo "<meta http-equiv='refresh' content='0; URL=login.php'/>";
+        }
+    ?>
 <!--
     <title>Home Page</title>
     <style>
@@ -355,7 +361,7 @@
     <div class="column2">
         <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
             <div>
-                <!--Contact-->
+                
                 <h2 style="text-decoration: underline">Contact Us</h2>
                 <label >Name: </label>
                 <input type='text' id='user' name='user' placeholder='John Doe'> <br> <br>
@@ -370,12 +376,6 @@
 
              </div>
     </div>
-    <?php
-        $login = $_POST['login'];
-        if(isset($login)) {
-            echo "<meta http-equiv='refresh' content='0; URL=login.php'/>";
-        }
-    ?>
 </form>
 </div>
     
