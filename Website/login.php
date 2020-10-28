@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,7 +128,6 @@
         </footer>
     </div>
     <?php
-		session_start();
         $servername = "localhost";
         $username = "user";
         $passwd = "CSU-CSCI490rrl";
@@ -146,7 +148,6 @@
 
                 if(mysqli_num_rows($getinfo) == 0) {
                     echo "Account does not exist under this email";
-                    session_destroy();
                 }
                 else {
                     while($row = mysqli_fetch_assoc($getinfo)) {
@@ -160,14 +161,12 @@
                         }
                         else {
                                 echo "Incorrect Password<br><br>";
-                                session_destroy();
                         }
                     }
                 }
             }
             else {
                 echo "Please enter information in all fields<br><br>";
-                session_destroy();
             }
         }
 
@@ -202,35 +201,6 @@
             }
             else {
                 echo "<center> Please enter information in all fields </center><br><br>";
-                session_destroy();
-            }
-        }
-
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $pass = $_POST['password'];
-        $priv = 'c';
-        $active = 'a';
-        $button = $_POST['submit'];
-
-        if(isset($button)) {
-            if($firstname != NULL && $lastname != NULL && $email != NULL && $pass != NULL && $phone != NULL) {
-                $search = "SELECT email FROM user WHERE email='" . $email . "'";
-                $result = mysqli_query($conn, $search);
-                if(mysqli_num_rows($result) == 0) {
-                    $enter = "INSERT INTO user (firstName, lastName, email, password, phone, skill, active, privilege)
-                        VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
-                        '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
-                    if($conn->query($enter)) {
-                        echo "<center> Account Successfully Created. Please Log In </center><br><br>";
-                    }
-                    else {
-                        echo "Please enter information in all fields<br><br>";
-                    }
-                }
-                mysqli_close($conn);
             }
         }
      ?>

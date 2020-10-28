@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,11 +72,12 @@
 <body>
     <div id="page-container">
         <div id="content-wrap">
+            <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
             <header>
                 <a href="clientindex.php">
                     <img src="Images/RRL Logo-no bg.png" align="left" style="padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons">
                 </a>
-                <input type='button' class='button' value='Log In/Sign Up' href="login.php">
+                <input type='submit' class='button' name='login' value='Log Out' href="index.php">
                 <div style="padding-top: 50px; padding-right:150px; align:center; float:center">
                     <a class="nav" href="clientindex.php">Home</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
@@ -83,7 +87,12 @@
                 </div>
             </header>
             <br>
-            <form>
+            <?php
+                $login = $_POST['login'];
+                if(isset($login)) {
+                    echo "<meta http-equiv='refresh' content='0; URL=index.php'/>";
+                }
+            ?>
                 <div style="display:inline-block; text-align:left; padding-top: 50px" width="500px">
                     <label>First Name: </label> 
                     <input type='text' name='fname' class='input'>
