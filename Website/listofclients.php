@@ -58,6 +58,37 @@
         a.nav:hover{
             color: #3a5a40;
         }
+        /* The alert message box */
+        .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        position: fixed;
+        top: 0px;
+        left:0px;
+        width: 100%;
+        }
+
+        .alert.success {background-color: #4CAF50;}
+
+        /* The close button */
+        .closebtn {
+        margin-left: 15px;
+        margin-right: 30px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.5s;
+        }
+
+        /* When moving the mouse over the close button */
+        .closebtn:hover {
+        color: black;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +137,61 @@
                     echo "There are no client accounts";
                 }
                 else {
+                    echo "<label for='clients'>Edit client: </label>";
+                    echo "<select name='clients' id='clients'>";
+                    while($row = mysqli_fetch_assoc($list)) {
+                        echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
+                    }
+                    echo "</select>";
+                    echo "<select name='skill' id='skill'>";
+                    echo "<option value='b'>Beginner</option>";
+                    echo "<option value='i'>Intermediate</option>";
+                    echo "<option value='a'>Advanced</option>";
+                    echo "</select>";
+                    echo "<select name='activity' id='activity'>";
+                    echo "<option value='a'>Active</option>";
+                    echo "<option value='i'>Inactive</option>";
+                    echo "</select>";
+                    echo "&emsp; &emsp;<input type='submit' class='submit' name='edit' value='Edit Client'>";
+                    echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Client' onclick='clicked(event)'><br>";
+                    $edit = $_POST["edit"];
+                    $delete = $_POST["delete"];
+                    $cname = $_POST["clients"];
+                    $cskill = $_POST["skill"];
+                    $cactivity = $_POST["activity"];
+                    if(isset($edit)) {
+                        $updateInfo = "UPDATE user SET skill='" . $cskill . "', active='" . $cactivity . "' WHERE email='" . $cname . "'";
+                        if($conn->query($updateInfo)) {
+                            echo "<div class='alert success'>
+                            <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                            Account successfully updated.
+                            </div>";
+                            echo "<meta http-equiv='refresh' content='5'>";
+                        }
+                        else {
+                            "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Error updating account.
+                                </div>";
+                        }
+                    }
+                    if(isset($delete)) {
+                        $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
+                        if($conn->query($deleteInfo)) {
+                            echo "<div class='alert success'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Account successfully deleted.
+                                    </div>";
+                            echo "<meta http-equiv='refresh' content='5'>";
+                        }
+                        else {
+                            "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Error deleting account.
+                                </div>";
+                        }
+                    }
+                    echo "<br><br>";
                     echo "<center>";
                     echo "<table style='width=100%'>";
                     echo "<tr>";
@@ -121,7 +207,7 @@
                         if($row["privilege"] == "c") {
                             echo "<td>" . $row["firstName"] . "</td>";
                             echo "<td>" . $row["lastName"] . "</td>";
-                            echo "<td>" . $row["email"] . "</td>";
+                            echo "<td><a href='mailto:" . $row["email"] . "' style='color:black'>" . $row["email"] . "</a></td>";
                             echo "<td>" . $row["phone"] . "</td>";
                             
                             if($row["skill"] == "b") {
@@ -147,73 +233,35 @@
                     }
                     echo "</center>";
                     echo "<br><br>";
-                    echo "<label for='clients'>Edit client: </label>";
-                    echo "<select name='clients' id='clients'>";
-                    while($row = mysqli_fetch_assoc($list)) {
-                        echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
-                    }
-                    echo "</select>";
-                    echo "<select name='skill' id='skill'>";
-                    echo "<option value='b'>Beginner</option>";
-                    echo "<option value='i'>Intermediate</option>";
-                    echo "<option value='a'>Advanced</option>";
-                    echo "</select>";
-                    echo "<select name='activity' id='activity'>";
-                    echo "<option value='a'>Active</option>";
-                    echo "<option value='i'>Inactive</option>";
-                    echo "</select>";
-                    echo "&emsp; &emsp;<input type='submit' class='submit' name='edit' value='Edit Client'>";
-                    echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Client'><br>";
-                    $edit = $_POST["edit"];
-                    $delete = $_POST["delete"];
-                    $cname = $_POST["clients"];
-                    $cskill = $_POST["skill"];
-                    $cactivity = $_POST["activity"];
-                    if(isset($edit)) {
-                        $updateInfo = "UPDATE user SET skill='" . $cskill . "', active='" . $cactivity . "' WHERE email='" . $cname . "'";
-                        if($conn->query($updateInfo)) {
-                            echo "<meta http-equiv='refresh' content='0'>";
-                        }
-                        else {
-                            echo "<br>Error updating account<br>";
-                        }
-                    }
-                    if(isset($delete)) {
-                        $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
-                        if($conn->query($deleteInfo)) {
-                            echo "<meta http-equiv='refresh' content='0'>";
-                        }
-                        else {
-                            echo "<br>Error updating account<br>";
-                        }
-                    }
-                    echo "<br><br>";
-                    while($row = mysqli_fetch_assoc($getinfo)) {
-                        if($row["privilege"] == "c") {
-                            echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
-                            echo $row["email"] . "<br>";
-                            echo $row["phone"] . "<br>";
-                            
-                            if($row["skill"] == "b") {
-                                echo "Beginner<br>";
-                            }
-                            else if($row["skill"] == "i") {
-                                echo "Intermediate<br>";
-                            }
-                            else if($row["skill"] == "a") {
-                                echo "Advanced<br>";
-                            }
-
-                            if($row["active"] == "a") {
-                                echo "Active<br>";
-                            } 
-                            else if($row["active"] == "i") {
-                                echo "Inactive<br>";
-                            }
-                            echo "<br>";
-                        }
+                }
+                echo "<script>
+                // Get all elements with class='closebtn'
+                var close = document.getElementsByClassName('closebtn');
+                var i;
+        
+                // Loop through all close buttons
+                for (i = 0; i < close.length; i++) {
+                // When someone clicks on a close button
+                    close[i].onclick = function(){
+        
+                        // Get the parent of <span class='closebtn'> (<div class='alert'>)
+                        var div = this.parentElement;
+        
+                        // Set the opacity of div to 0 (transparent)
+                        div.style.opacity = '0';
+        
+                        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+                        setTimeout(function(){ div.style.display = 'none'; }, 600);
                     }
                 }
+
+                function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                }
+                </script>";
             ?>
             </form>
         </div>

@@ -188,8 +188,9 @@
                             if($conn->query($updateInfo)) {
                                 echo "<div class='alert success'>
                                     <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                    Account successfully updated. Please refresh the page.
+                                    Account successfully updated.
                                     </div>";
+                                    echo "<meta http-equiv='refresh' content='5'>";
                             }
                             else {
                                 echo "<div class='alert'>
@@ -213,8 +214,9 @@
                                 if($conn->query($updatePass)) {
                                     echo "<div class='alert success'>
                                     <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                    Password successfully updated. Please refresh the page.
+                                    Password successfully updated.
                                     </div>";
+                                    echo "<meta http-equiv='refresh' content='5'>";
                                 }
                                 else {
                                     echo "<div class='alert'>

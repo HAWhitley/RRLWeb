@@ -172,13 +172,14 @@
                             if($conn->query($enter)) {
                                 echo "<div class='alert success'>
                                     <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                    Account successfully created. Please refresh the page.
+                                    Account successfully created.
                                     </div>";
+                                    echo "<meta http-equiv='refresh' content='5'>";
                             }
                             else {
                                 echo "<div class='alert'>
                                 <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                This is an alert box.
+                                Error creating account.
                                 </div>";
                             }
                         }
@@ -208,7 +209,7 @@
                             echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
                         }
                         echo "</select>";
-                        echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Admin'><br><br> <br>";
+                        echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Admin' onclick='clicked(event)'><br><br> <br>";
                         $delete = $_POST["delete"];
                         $cname = $_POST["clients"];
                         if(isset($delete)) {
@@ -219,8 +220,9 @@
                                 if($conn->query($deleteInfo)) {
                                     echo "<div class='alert success'>
                                     <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                    Account successfully deleted. Please refresh the page.
+                                    Account successfully deleted.
                                     </div>";
+                                    echo "<meta http-equiv='refresh' content='5'>";
                                 }
                                 else {
                                     echo "<div class='alert'>
@@ -251,7 +253,7 @@
                         if($row["privilege"] == "a" || $row["privilege"] == "b") {
                             echo "<td>" . $row["firstName"] . "</td>";
                             echo "<td>" . $row["lastName"] . "</td>";
-                            echo "<td>" . $row["email"] . "</td>";
+                            echo "<td><a href='mailto:" . $row["email"] . "' style='color:black'>" . $row["email"] . "</a></td>";
                             echo "<td>" . $row["phone"] . "</td>";
                         }
                         echo "</tr>";
@@ -277,6 +279,13 @@
         
                         // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
                         setTimeout(function(){ div.style.display = 'none'; }, 600);
+                    }
+                }
+
+                function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
                     }
                 }
                 </script>";
