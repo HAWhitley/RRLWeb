@@ -100,6 +100,7 @@
                 $getinfo = mysqli_query($conn, $authenticate);
                 $show = "SELECT * FROM user WHERE privilege='a' OR privilege='b'";
                 $list = mysqli_query($conn, $show);
+                
                 echo "<br><br>";
                 if(mysqli_num_rows($getinfo) == 0) {
                     echo "There are no client accounts";
@@ -152,6 +153,32 @@
                 <label>Password: </label>
                 <input type='password' name='password'> <br> <br> <br>
                 <input type='submit' class='submit' name='submit' value='Add Admin'> <br> <br> <br>";
+                echo "<br><br>";
+                if($_SESSION["privilege"] == 'b') {
+                    echo "<label for='clients'>Select Admin: </label>";
+                    echo "<select name='clients' id='clients'>";
+                    while($row = mysqli_fetch_assoc($list)) {
+                        echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
+                    }
+                    echo "</select>";
+                    echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Admin'><br><br> <br>";
+                    $delete = $_POST["delete"];
+                    $cname = $_POST["clients"];
+                    if(isset($delete)) {
+                        if($cname != $_SESSION["user"]) {
+                            $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
+                            if($conn->query($deleteInfo)) {
+                                echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                            else {
+                                echo "<br>Error updating account<br><br>";
+                            }
+                        }
+                        else {
+                            echo "<br>You can't delete yourself<br><br>";
+                        }
+                    }
+                }
                 $firstname = $_POST['firstname'];
                 $lastname = $_POST['lastname'];
                 $email = $_POST['email'];
@@ -184,6 +211,14 @@
                         echo "<center> Please enter information in all fields </center><br><br>";
                     }
                 }
+                while($row = mysqli_fetch_assoc($getinfo)) {
+                    if($row["privilege"] == "a" || $row["privilege"] == "b") {
+                        echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
+                        echo $row["email"] . "<br>";
+                        echo $row["phone"] . "<br>";
+                    }
+                    echo "<br>";
+                }  
             ?>
             </form>
         </div>
