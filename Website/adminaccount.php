@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +21,7 @@
         .submit {
             font-size: 16pt;
             padding: 5px;
-            width: 170px;
+            width: 190px;
             color: white;
             background-color: #3a5a40;
         }
@@ -69,11 +72,12 @@
 <body>
     <div id="page-container">
             <div id="content-wrap">
+            <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
             <header>
                 <a href="adminindex.php">
                     <img src="Images/RRL Logo-no bg.png" align="left" style="padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons">
                 </a>
-                <input type='button' class='button' value='Log In/Sign Up' href="login.php">
+                <input type='submit' class='button' name='login' value='Log Out' href="index.php">
                 <div style="padding-top: 50px; padding-right:150px; align:center; float:center">
                     <a class="nav" href="adminindex.php">Home</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
@@ -87,28 +91,105 @@
                 </div>
             </header>
             <br>
-            <form>
-                <div style="display:inline-block; text-align:left; padding-top: 50px" width="500px">
+            <?php
+                $login = $_POST['login'];
+                if(isset($login)) {
+                    echo "<meta http-equiv='refresh' content='0; URL=index.php'/>";
+                }
+                $servername = "localhost";
+                $username = "user";
+                $passwd = "CSU-CSCI490rrl";
+                $database = "userauth";
+                $conn = new mysqli($servername, $username, $passwd, $database);
+                if(!$conn) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+                $user = $_SESSION["user"];
+                $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
+                $getinfo = mysqli_query($conn, $authenticate);
+                $first;
+                $last;
+                $em;
+                $pass;
+                $phone;
+                echo "<br><br><br><br>";
+                #echo "<div style='display:inline-block; text-align:left; padding-top: 50px' width='500px'>";
+                while($row = mysqli_fetch_assoc($getinfo)) {
+                    $first = $row["firstName"];
+                    $last = $row["lastName"];
+                    $em = $row["email"];
+                    $phone = $row["phone"];
+                    $pass = $row["password"];
+                    echo "<div style='display:inline-block; text-align:left; padding-top: 50px' width='500px'>
                     <label>First Name: </label> 
-                    <input type='text' name='fname' class='input'>
+                    <input type='text' name='fname' class='input' value='" . $first . "'>
                     <br> <br>
                     <label>Last Name: </label>
-                    <input type='text' name='lname' class='input'>
+                    <input type='text' name='lname' class='input' value='" . $last . "'>
                     <br> <br>
                     <label>Phone Number: </label>
-                    <input type='text' name='number' class='input'>
+                    <input type='text' name='number' class='input' value='" . $phone . "'>
                     <br> <br>
                     <label>Email: </label>
-                    <input type='text' name='email' class='input'>
-                    <br> <br> <br>
-                    <label>Current Password: </label>
+                    <input type='text' name='email' class='input' value='" . $em . "'>
+                    </div>
+                    <br> <br> <br>";
+                }
+                echo "<input type='submit' class='submit' name='edit' value='Edit Details'><br>";
+                echo "<div style='display:inline-block; text-align:left; padding-top: 50px' width='500px'>";
+                echo "<label>Current Password: </label>
                     <input type='password' name='pwd' class='input'>
                     <br> <br>
                     <label>New Password: </label>
                     <input type='password' name='newpwd' class='input'>
-                </div>
-                <br> <br> <br>
-                <input type='submit' class='submit' value='Save Changes'>
+                    </div>
+                    <br> <br> <br>
+                    <input type='submit' class='submit' name='pchange' value='Change Password'><br><br>";
+
+                $edit = $_POST['edit'];
+                $change = $_POST['pchange'];
+                $fname = $_POST['fname'];
+                $lname = $_POST['lname'];
+                $number = $_POST['number'];
+                $ema = $_POST['email'];
+                $curr = $_POST['pwd'];
+                $new = $_POST['newpwd'];
+
+                if(isset($edit)) {
+                    if($fname != NULL && $lname != NULL && $number != NULL && $ema != NULL) {
+                        $updateInfo = "UPDATE user SET firstName='" . $fname . "', lastName='" . $lname ."', phone='" . $number . "', email='" . $ema . "' WHERE email='" . $user . "'";
+                        if($conn->query($updateInfo)) {
+                            echo "<meta http-equiv='refresh' content='0'>";
+                        }
+                        else {
+                            echo "<br>Error updating account<br>";
+                        }
+                    }
+                    else {
+                        echo "<br>Please Enter Information in All Fields<br>";
+                    }
+                }
+                
+                if(isset($change)) {
+                    if($curr != NULL && $new != NULL) {
+                        if($curr == $pass) {
+                            $updatePass = "UPDATE user SET password='" . $new . "' WHERE email='" . $user . "'";
+                            if($conn->query($updatePass)) {
+                                echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                            else {
+                                echo "<br>Error updating account<br>";
+                            }
+                        }
+                        else {
+                            echo "<br>Password Incorrect<br>";
+                        }
+                    }
+                    else {
+                        echo "<br>Please Enter Information in All Fields<br>";
+                    }
+                }
+            ?>
             </form>
         </div>
         <footer id="footer">
@@ -123,9 +204,5 @@
             <!-- </div> -->
         </footer>
     </div>
-    <?php
-        session_start();
-        echo $_SESSION["admin"];
-    ?>
 </body>
 </html>
