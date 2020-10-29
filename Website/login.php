@@ -152,7 +152,8 @@
                 else {
                     while($row = mysqli_fetch_assoc($getinfo)) {
                         if($row["password"] == $auth) {
-                            if($row["privilege"] == 'a') {
+                            $_SESSION["privilege"] = $row["privilege"];
+                            if($row["privilege"] == 'a' || $row["privilege"] == 'b') {
                                 echo "<meta http-equiv='refresh' content='0; URL=adminindex.php'/>";
                             }
                             else if($row["privilege"] == 'c') {
