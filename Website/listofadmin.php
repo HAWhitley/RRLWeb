@@ -24,6 +24,13 @@
             color: white;
             background-color: #3a5a40;
         }
+        input[type=text], input[type=password] {
+            float:right;
+        }
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
         body {
             text-align: center;
         }
@@ -56,6 +63,37 @@
 
         a.nav:hover{
             color: #3a5a40;
+        }
+        /* The alert message box */
+        .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        position: fixed;
+        top: 0px;
+        left:0px;
+        width: 100%;
+        }
+
+        .alert.success {background-color: #4CAF50;}
+
+        /* The close button */
+        .closebtn {
+        margin-left: 15px;
+        margin-right: 30px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.5s;
+        }
+
+        /* When moving the mouse over the close button */
+        .closebtn:hover {
+        color: black;
         }
     </style>
 </head>
@@ -100,48 +138,9 @@
                 $getinfo = mysqli_query($conn, $authenticate);
                 $show = "SELECT * FROM user WHERE privilege='a' OR privilege='b'";
                 $list = mysqli_query($conn, $show);
-                
-                echo "<br><br>";
-                if(mysqli_num_rows($getinfo) == 0) {
-                    echo "There are no client accounts";
-                }
-                else {
-                    while($row = mysqli_fetch_assoc($getinfo)) {
-                        if($row["privilege"] == "a" || $row["privilege"] == "b") {
-                            echo $row["firstName"] . " " . $row["lastName"] . ": &emsp; &emsp;";
-                            echo $row["email"] . "&emsp; &emsp;" . $row["phone"] . "<br>";
-                        }
-                    }
-                    echo "<br><br>";
-                    if($_SESSION["privilege"] == 'b') {
-                        echo "<label for='clients'>Edit client: </label>";
-                        echo "<select name='clients' id='clients'>";
-                        while($row = mysqli_fetch_assoc($list)) {
-                            echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
-                        }
-                        echo "</select>";
-                        echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Admin'><br><br> <br>";
-                        $delete = $_POST["delete"];
-                        $cname = $_POST["clients"];
-                        if(isset($delete)) {
-                            if($cname != $_SESSION["user"]) {
-                                //<button onclick="myFunction()">Try it</button>
-                                echo "<p id='demo'></p><script>function myFunction() {var txt; if (confirm('Are you sure you want to delete this person?')) { txt = 'You pressed OK!';} else {txt = 'You pressed Cancel!';} document.getElementById('demo').innerHTML = txt;}</script>";
-                                $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
-                                if($conn->query($deleteInfo)) {
-                                    echo "<meta http-equiv='refresh' content='0'>";
-                                }
-                                else {
-                                    echo "<br>Error updating account<br>";
-                                }
-                            }
-                            else {
-                                echo "<br>You can't delete yourself<br>";
-                            }
-                        }
-                    }
-                }
+
                 echo "<h3>Add an Admin</h3>
+                <div style='display:inline-block; text-align:left; padding-top: 5px' width='500px'>
                 <label>First Name: </label>
                 <input type='text' name='firstname' placeholder='John'> <br> <br>
                 <label>Last Name: </label>
@@ -151,34 +150,8 @@
                 <label>Phone Number: </label>
                 <input type='text' name='phone'> <br> <br>
                 <label>Password: </label>
-                <input type='password' name='password'> <br> <br> <br>
+                <input type='password' name='password'></div> <br> <br> <br>
                 <input type='submit' class='submit' name='submit' value='Add Admin'> <br> <br> <br>";
-                echo "<br><br>";
-                if($_SESSION["privilege"] == 'b') {
-                    echo "<label for='clients'>Select Admin: </label>";
-                    echo "<select name='clients' id='clients'>";
-                    while($row = mysqli_fetch_assoc($list)) {
-                        echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
-                    }
-                    echo "</select>";
-                    echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Admin'><br><br> <br>";
-                    $delete = $_POST["delete"];
-                    $cname = $_POST["clients"];
-                    if(isset($delete)) {
-                        if($cname != $_SESSION["user"]) {
-                            $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
-                            if($conn->query($deleteInfo)) {
-                                echo "<meta http-equiv='refresh' content='0'>";
-                            }
-                            else {
-                                echo "<br>Error updating account<br><br>";
-                            }
-                        }
-                        else {
-                            echo "<br>You can't delete yourself<br><br>";
-                        }
-                    }
-                }
                 $firstname = $_POST['firstname'];
                 $lastname = $_POST['lastname'];
                 $email = $_POST['email'];
@@ -197,28 +170,116 @@
                                 VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
                                 '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
                             if($conn->query($enter)) {
-                                echo "<meta http-equiv='refresh' content='0'>";
+                                echo "<div class='alert success'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Account successfully created. Please refresh the page.
+                                    </div>";
                             }
                             else {
-                                echo "Error creating account<br><br>";
+                                echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                This is an alert box.
+                                </div>";
                             }
                         }
                         else {
-                            echo "Account already exists under this email<br><br>";
+                            echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Account already exists under this email.
+                                </div>";
                         }
                     }
                     else {
-                        echo "<center> Please enter information in all fields </center><br><br>";
+                        echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Please enter information in all fields.
+                                </div>";
                     }
                 }
-                while($row = mysqli_fetch_assoc($getinfo)) {
-                    if($row["privilege"] == "a" || $row["privilege"] == "b") {
-                        echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
-                        echo $row["email"] . "<br>";
-                        echo $row["phone"] . "<br>";
+                echo "<br><br>";
+                if(mysqli_num_rows($getinfo) == 0) {
+                    echo "There are no client accounts";
+                }
+                else {
+                    if($_SESSION["privilege"] == 'b') {
+                        echo "<label for='clients'>Edit client: </label>";
+                        echo "<select name='clients' id='clients'>";
+                        while($row = mysqli_fetch_assoc($list)) {
+                            echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
+                        }
+                        echo "</select>";
+                        echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Admin'><br><br> <br>";
+                        $delete = $_POST["delete"];
+                        $cname = $_POST["clients"];
+                        if(isset($delete)) {
+                            if($cname != $_SESSION["user"]) {
+                                //<button onclick="myFunction()">Try it</button>
+                                echo "<p id='demo'></p><script>function myFunction() {var txt; if (confirm('Are you sure you want to delete this person?')) { txt = 'You pressed OK!';} else {txt = 'You pressed Cancel!';} document.getElementById('demo').innerHTML = txt;}</script>";
+                                $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
+                                if($conn->query($deleteInfo)) {
+                                    echo "<div class='alert success'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Account successfully deleted. Please refresh the page.
+                                    </div>";
+                                }
+                                else {
+                                    echo "<div class='alert'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Error updating account.
+                                    </div>";
+                                }
+                            }
+                            else {
+                                echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                You can't delete yourself.
+                                </div>";
+                            }
+                        }
                     }
-                    echo "<br>";
-                }  
+                    echo "<br><br>";
+                    echo "<center>";
+                    echo "<table style='width:50%'>";
+                    echo "<tr>";
+                    echo "<th>First Name</th>";
+                    echo "<th>Last Name</th>";
+                    echo "<th>Email</th>";
+                    echo "<th>Phone Number</th>";
+                    echo "</tr>";
+                    while($row = mysqli_fetch_assoc($getinfo)) {
+                        echo "<tr>";
+                        if($row["privilege"] == "a" || $row["privilege"] == "b") {
+                            echo "<td>" . $row["firstName"] . "</td>";
+                            echo "<td>" . $row["lastName"] . "</td>";
+                            echo "<td>" . $row["email"] . "</td>";
+                            echo "<td>" . $row["phone"] . "</td>";
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    echo "</center>";
+                }
+                echo "<script>
+                // Get all elements with class='closebtn'
+                var close = document.getElementsByClassName('closebtn');
+                var i;
+        
+                // Loop through all close buttons
+                for (i = 0; i < close.length; i++) {
+                // When someone clicks on a close button
+                    close[i].onclick = function(){
+        
+                        // Get the parent of <span class='closebtn'> (<div class='alert'>)
+                        var div = this.parentElement;
+        
+                        // Set the opacity of div to 0 (transparent)
+                        div.style.opacity = '0';
+        
+                        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+                        setTimeout(function(){ div.style.display = 'none'; }, 600);
+                    }
+                }
+                </script>";
             ?>
             </form>
         </div>

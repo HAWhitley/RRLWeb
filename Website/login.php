@@ -78,6 +78,37 @@
             width: 100%;
             height: 100px;            /* Footer height */
         }
+        /* The alert message box */
+        .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        position: fixed;
+        top: 0px;
+        left:0px;
+        width: 100%;
+        }
+
+        .alert.success {background-color: #4CAF50;}
+
+        /* The close button */
+        .closebtn {
+        margin-left: 15px;
+        margin-right: 30px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.5s;
+        }
+
+        /* When moving the mouse over the close button */
+        .closebtn:hover {
+        color: black;
+        }
     </style>
 </head>
 <body>
@@ -150,7 +181,10 @@
                 $getinfo = mysqli_query($conn, $authenticate);
 
                 if(mysqli_num_rows($getinfo) == 0) {
-                    echo "Account does not exist under this email";
+                    echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Account does not exist under this email.
+                                </div>";
                 }
                 else {
                     while($row = mysqli_fetch_assoc($getinfo)) {
@@ -164,13 +198,19 @@
                             }
                         }
                         else {
-                                echo "Incorrect Password<br><br>";
+                            echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Incorrect password.
+                                </div>";
                         }
                     }
                 }
             }
             else {
-                echo "Please enter information in all fields<br><br>";
+                echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Please enter information in all fields.
+                                </div>";
             }
         }
 
@@ -193,20 +233,53 @@
                         VALUES ('" . $firstname . "', '" . $lastname . "', '" . $email . "',
                         '" . $pass . "', '" . $phone . "', '" . $skill . "', '" . $active . "', '" . $priv . "')";
                     if($conn->query($enter)) {
-                        echo "Account Successfully Created. Please Log In<br><br>";
+                        echo "<div class='alert success'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Account successfully created. Please log in.
+                                    </div>";
                     }
                     else {
-                        echo "Error creating account<br><br>";
+                        echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Error creating account.
+                                </div>";
                     }
                 }
                 else {
-                    echo "Account already exists under this email<br><br>";
+                    echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Account already exists under this email.
+                                </div>";
                 }
             }
             else {
-                echo "<center> Please enter information in all fields </center><br><br>";
+                echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Please enter information in all fields.
+                                </div>";
             }
         }
+        echo "<script>
+                // Get all elements with class='closebtn'
+                var close = document.getElementsByClassName('closebtn');
+                var i;
+        
+                // Loop through all close buttons
+                for (i = 0; i < close.length; i++) {
+                // When someone clicks on a close button
+                    close[i].onclick = function(){
+        
+                        // Get the parent of <span class='closebtn'> (<div class='alert'>)
+                        var div = this.parentElement;
+        
+                        // Set the opacity of div to 0 (transparent)
+                        div.style.opacity = '0';
+        
+                        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+                        setTimeout(function(){ div.style.display = 'none'; }, 600);
+                    }
+                }
+                </script>";
      ?>
 </body>
 </html>

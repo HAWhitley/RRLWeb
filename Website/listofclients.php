@@ -21,6 +21,10 @@
             color: white;
             background-color: #3a5a40;
         }
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
         body {
             text-align: center;
         }
@@ -102,32 +106,46 @@
                     echo "There are no client accounts";
                 }
                 else {
+                    echo "<center>";
+                    echo "<table style='width=100%'>";
+                    echo "<tr>";
+                    echo "<th>First Name</th>";
+                    echo "<th>Last Name</th>";
+                    echo "<th>Email</th>";
+                    echo "<th>Phone Number</th>";
+                    echo "<th>Skill Level</th>";
+                    echo "<th>Activity</th>";
+                    echo "</tr>";
                     while($row = mysqli_fetch_assoc($getinfo)) {
+                        echo "<tr>";
                         if($row["privilege"] == "c") {
-                            echo $row["firstName"] . " " . $row["lastName"] . ": &emsp; &emsp;";
-                            echo $row["email"] . " &emsp; &emsp;" . $row["phone"] . " &emsp; &emsp;";
+                            echo "<td>" . $row["firstName"] . "</td>";
+                            echo "<td>" . $row["lastName"] . "</td>";
+                            echo "<td>" . $row["email"] . "</td>";
+                            echo "<td>" . $row["phone"] . "</td>";
                             
                             if($row["skill"] == "b") {
-                                echo "Beginner";
+                                echo "<td>Beginner</td>";
                             }
                             else if($row["skill"] == "i") {
-                                echo "Intermediate";
+                                echo "<td>Intermediate</td>";
                             }
                             else if($row["skill"] == "a") {
-                                echo "Advanced";
+                                echo "<td>Advanced</td>";
                             }
 
                             echo " &emsp; &emsp;";
 
                             if($row["active"] == "a") {
-                                echo "Active";
+                                echo "<td>Active</td>";
                             } 
                             else if($row["active"] == "i") {
-                                echo "Inactive";
+                                echo "<td>Inactive</td>";
                             }
-                            echo "<br>";
                         }
+                        echo "</tr>";
                     }
+                    echo "</center>";
                     echo "<br><br>";
                     echo "<label for='clients'>Edit client: </label>";
                     echo "<select name='clients' id='clients'>";

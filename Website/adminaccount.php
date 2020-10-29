@@ -67,6 +67,37 @@
         a.nav:hover{
             color: #3a5a40;
         }
+        /* The alert message box */
+        .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        position: fixed;
+        top: 0px;
+        left:0px;
+        width: 100%;
+        }
+
+        .alert.success {background-color: #4CAF50;}
+
+        /* The close button */
+        .closebtn {
+        margin-left: 15px;
+        margin-right: 30px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.5s;
+        }
+
+        /* When moving the mouse over the close button */
+        .closebtn:hover {
+        color: black;
+        }
     </style>
 </head>
 <body>
@@ -159,14 +190,23 @@
                     if($fname != NULL && $lname != NULL && $number != NULL && $ema != NULL) {
                         $updateInfo = "UPDATE user SET firstName='" . $fname . "', lastName='" . $lname ."', phone='" . $number . "', email='" . $ema . "' WHERE email='" . $user . "'";
                         if($conn->query($updateInfo)) {
-                            echo "<meta http-equiv='refresh' content='0'>";
+                            echo "<div class='alert success'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Account successfully updated. Please refresh the page.
+                                    </div>";
                         }
                         else {
-                            echo "<br>Error updating account<br>";
+                            echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Error updating account.
+                                </div>";
                         }
                     }
                     else {
-                        echo "<br>Please Enter Information in All Fields<br>";
+                        echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Please enter information in all fields.
+                                </div>";
                     }
                 }
                 
@@ -175,20 +215,53 @@
                         if($curr == $pass) {
                             $updatePass = "UPDATE user SET password='" . $new . "' WHERE email='" . $user . "'";
                             if($conn->query($updatePass)) {
-                                echo "<meta http-equiv='refresh' content='0'>";
+                                echo "<div class='alert success'>
+                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                    Password successfully updated. Please refresh the page.
+                                    </div>";
                             }
                             else {
-                                echo "<br>Error updating account<br>";
+                                echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Error updating account.
+                                </div>";
                             }
                         }
                         else {
-                            echo "<br>Password Incorrect<br>";
+                            echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Password incorrect.
+                                </div>";
                         }
                     }
                     else {
-                        echo "<br>Please Enter Information in All Fields<br>";
+                        echo "<div class='alert'>
+                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                                Please enter information in all fields.
+                                </div>";
                     }
                 }
+                echo "<script>
+                // Get all elements with class='closebtn'
+                var close = document.getElementsByClassName('closebtn');
+                var i;
+        
+                // Loop through all close buttons
+                for (i = 0; i < close.length; i++) {
+                // When someone clicks on a close button
+                    close[i].onclick = function(){
+        
+                        // Get the parent of <span class='closebtn'> (<div class='alert'>)
+                        var div = this.parentElement;
+        
+                        // Set the opacity of div to 0 (transparent)
+                        div.style.opacity = '0';
+        
+                        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+                        setTimeout(function(){ div.style.display = 'none'; }, 600);
+                    }
+                }
+                </script>";
             ?>
             </form>
         </div>
