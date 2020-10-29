@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log-in</title>
+    <title>RRL-Log In</title>
     <style>
         body {
             text-align: center;
@@ -20,14 +20,15 @@
 
         .button {
             font-size: 16pt;
-            text-align: center !important;
+            text-align: center;
+            float: center;
             padding: 5px;
             width: 130px;
             color: white;
             background-color:#3a5a40;
         }
 
-        input {
+        .input {
             margin-right: 15%;
             float: right;
             font-size: 16pt;
@@ -96,35 +97,37 @@
                     <!--Log In-->
                     <h3>Log In</h3>
                     <label>Email: </label>
-                    <input type='text' name='user'> <br> <br>
+                    <input type='text' name='user' class='input'> <br> <br>
                     <label>Password: </label>
-                    <input type='password' name='passwd'> <br> <br>  <br>
+                    <input type='password' name='passwd' class='input'> <br> <br>  <br>
                     <input type='submit' class="button" name='login' value='Log In'> <br> <br> <br>
 
                     <!--Sign Up-->
                     <h3>Sign Up</h3>
                     <label>First Name: </label>
-                    <input type='text' name='firstname' placeholder='John'> <br> <br>
+                    <input type='text' name='firstname' placeholder='John' class='input'> <br> <br>
                     <label>Last Name: </label>
-                    <input type='text' name='lastname' placeholder='Doe'> <br> <br>
+                    <input type='text' name='lastname' placeholder='Doe' class='input'> <br> <br>
                     <label>Email: </label>
-                    <input type='text' name='email' placeholder='123@example.com'> <br> <br>
+                    <input type='text' name='email' placeholder='123@example.com' class='input'> <br> <br>
                     <label>Phone Number: </label>
-                    <input type='text' name='phone'> <br> <br>
+                    <input type='text' name='phone' class='input'> <br> <br>
                     <label>Password: </label>
-                    <input type='password' name='password'> <br> <br> <br>
+                    <input type='password' name='password' class='input'> <br> <br> <br>
                     <input type='submit' class="button" name='submit' value='Sign Up'> <br> <br> <br>
                 </div>
             </form>
         </div>
         <footer id="footer">
-            <!-- <p></p> -->
-            <div width="500px" height="100px" style="margin:auto; padding-top:50px">
+            <p></p>
+            <!-- <div width="500px" height="100px" style="margin:auto; padding-top:50px"> -->
                 <a href="mailto:raesridinglessons@gmail.com" style="color:white">raesridinglessons@gmail.com</a> 
-                &emsp;&emsp; Phone: 123-456-7890 &emsp;&emsp; 
-                <a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
-                <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
-            </div>
+                &emsp;&emsp; 
+                <span style="color:white">Phone: 123-456-7890</span>
+                &emsp;&emsp; 
+                <a href="https://www.facebook.com" target="_blank"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
+                <a href="https://www.instagram.com" target="_blank"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
+            <!-- </div> -->
         </footer>
     </div>
     <?php

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrator Calendar</title>
+    <title>RRL-Calendar</title>
     <link href="jquery-ui.min.css" rel="stylesheet" />
     <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="jquery-ui.min.js"></script>
@@ -438,8 +438,8 @@
                 &emsp;&emsp; 
                 <span style="color:white">Phone: 123-456-7890</span>
                 &emsp;&emsp; 
-                <a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
-                <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
+                <a href="https://www.facebook.com" target="_blank"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
+                <a href="https://www.instagram.com" target="_blank"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
             <!-- </div> -->
         </footer>
     </div>

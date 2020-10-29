@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RRL-Home</title>
+    <title>RRL-Admin List</title>
     <style>
         .button {
             font-size: 16pt;
@@ -107,11 +107,9 @@
                 else {
                     while($row = mysqli_fetch_assoc($getinfo)) {
                         if($row["privilege"] == "a" || $row["privilege"] == "b") {
-                            echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
-                            echo $row["email"] . "<br>";
-                            echo $row["phone"] . "<br>";
+                            echo $row["firstName"] . " " . $row["lastName"] . ": &emsp; &emsp;";
+                            echo $row["email"] . "&emsp; &emsp;" . $row["phone"] . "<br>";
                         }
-                        echo "<br>";
                     }
                     echo "<br><br>";
                     if($_SESSION["privilege"] == 'b') {
@@ -126,6 +124,8 @@
                         $cname = $_POST["clients"];
                         if(isset($delete)) {
                             if($cname != $_SESSION["user"]) {
+                                //<button onclick="myFunction()">Try it</button>
+                                echo "<p id='demo'></p><script>function myFunction() {var txt; if (confirm('Are you sure you want to delete this person?')) { txt = 'You pressed OK!';} else {txt = 'You pressed Cancel!';} document.getElementById('demo').innerHTML = txt;}</script>";
                                 $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
                                 if($conn->query($deleteInfo)) {
                                     echo "<meta http-equiv='refresh' content='0'>";
@@ -194,8 +194,8 @@
                 &emsp;&emsp; 
                 <span style="color:white">Phone: 123-456-7890</span>
                 &emsp;&emsp; 
-                <a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
-                <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
+                <a href="https://www.facebook.com" target="_blank"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
+                <a href="https://www.instagram.com" target="_blank"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
             <!-- </div> -->
         </footer>
     </div>

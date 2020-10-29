@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RRL-Home</title>
+    <title>RRL-Client List</title>
     <style>
         .button {
             font-size: 16pt;
@@ -104,25 +104,26 @@
                 else {
                     while($row = mysqli_fetch_assoc($getinfo)) {
                         if($row["privilege"] == "c") {
-                            echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
-                            echo $row["email"] . "<br>";
-                            echo $row["phone"] . "<br>";
+                            echo $row["firstName"] . " " . $row["lastName"] . ": &emsp; &emsp;";
+                            echo $row["email"] . " &emsp; &emsp;" . $row["phone"] . " &emsp; &emsp;";
                             
                             if($row["skill"] == "b") {
-                                echo "Beginner<br>";
+                                echo "Beginner";
                             }
                             else if($row["skill"] == "i") {
-                                echo "Intermediate<br>";
+                                echo "Intermediate";
                             }
                             else if($row["skill"] == "a") {
-                                echo "Advanced<br>";
+                                echo "Advanced";
                             }
 
+                            echo " &emsp; &emsp;";
+
                             if($row["active"] == "a") {
-                                echo "Active<br>";
+                                echo "Active";
                             } 
                             else if($row["active"] == "i") {
-                                echo "Inactive<br>";
+                                echo "Inactive";
                             }
                             echo "<br>";
                         }
@@ -179,8 +180,8 @@
                 &emsp;&emsp; 
                 <span style="color:white">Phone: 123-456-7890</span>
                 &emsp;&emsp; 
-                <a href="facebook.com"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
-                <a href="instagram.com"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
+                <a href="https://www.facebook.com" target="_blank"><img src="Images/facebook.png" width= "30px" height= "30px" alt="facebook"></a> &emsp; 
+                <a href="https://www.instagram.com" target="_blank"><img src="Images/instagram.png" width= "30px" height= "30px" alt="instagram"></a>
             <!-- </div> -->
         </footer>
     </div>
