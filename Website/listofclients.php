@@ -102,32 +102,6 @@
                     echo "There are no client accounts";
                 }
                 else {
-                    while($row = mysqli_fetch_assoc($getinfo)) {
-                        if($row["privilege"] == "c") {
-                            echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
-                            echo $row["email"] . "<br>";
-                            echo $row["phone"] . "<br>";
-                            
-                            if($row["skill"] == "b") {
-                                echo "Beginner<br>";
-                            }
-                            else if($row["skill"] == "i") {
-                                echo "Intermediate<br>";
-                            }
-                            else if($row["skill"] == "a") {
-                                echo "Advanced<br>";
-                            }
-
-                            if($row["active"] == "a") {
-                                echo "Active<br>";
-                            } 
-                            else if($row["active"] == "i") {
-                                echo "Inactive<br>";
-                            }
-                            echo "<br>";
-                        }
-                    }
-                    echo "<br><br>";
                     echo "<label for='clients'>Edit client: </label>";
                     echo "<select name='clients' id='clients'>";
                     while($row = mysqli_fetch_assoc($list)) {
@@ -166,6 +140,32 @@
                         }
                         else {
                             echo "<br>Error updating account<br>";
+                        }
+                    }
+                    echo "<br><br>";
+                    while($row = mysqli_fetch_assoc($getinfo)) {
+                        if($row["privilege"] == "c") {
+                            echo $row["firstName"] . " " . $row["lastName"] . ":<br>";
+                            echo $row["email"] . "<br>";
+                            echo $row["phone"] . "<br>";
+                            
+                            if($row["skill"] == "b") {
+                                echo "Beginner<br>";
+                            }
+                            else if($row["skill"] == "i") {
+                                echo "Intermediate<br>";
+                            }
+                            else if($row["skill"] == "a") {
+                                echo "Advanced<br>";
+                            }
+
+                            if($row["active"] == "a") {
+                                echo "Active<br>";
+                            } 
+                            else if($row["active"] == "i") {
+                                echo "Inactive<br>";
+                            }
+                            echo "<br>";
                         }
                     }
                 }
