@@ -207,22 +207,18 @@
     <div id="page-container">
             <div id="content-wrap">
             <header>
-                <a href="adminindex.php">
+                <a href="clientindex.php">
                     <img src="Images/RRL Logo-no bg.png" align="left" style="padding-top: 10px" width="350px" height="100px" alt="Rae's Riding Lessons">
                 </a>
                 <form action="<?=$_SERVER['PHP_SELF']?>" method='post'>
                     <input type='submit' class='button' name='login' value='Log Out' href="index.php">
                 </form>
                 <div style="padding-top: 50px; padding-right:150px; align:center; float:center">
-                    <a class="nav" href="adminindex.php">Home</a>
+                    <a class="nav" href="clientindex.php">Home</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
-                    <a class="nav" href="admincal.php">Manage Lessons</a>
-                    &emsp; &emsp; ~ &emsp; &emsp;
-                    <a class="nav" href="listofclients.php">Manage Clients</a>
-                    &emsp; &emsp; ~ &emsp; &emsp;
-                    <a class="nav" href="listofadmin.php">Manage Admins</a>
+                    <a class="nav" href="clientcal.php">Schedule a Lesson</a>
                     &emsp; &emsp; ~ &emsp; &emsp; 
-                    <a class="nav" href="adminaccount.php">Edit Account</a>
+                    <a class="nav" href="clientaccount.php">Edit Account</a>
                 </div>
             </header>
             <br>

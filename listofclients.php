@@ -1,12 +1,9 @@
-<?php
-    session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RRL-Edit Account</title>
+    <title>RRL-Client List</title>
     <style>
         .button {
             font-size: 16pt;
@@ -17,25 +14,19 @@
             float: right;
             align: top;
         }
-
         .submit {
             font-size: 16pt;
             padding: 5px;
-            width: 190px;
+            width: 170px;
             color: white;
             background-color: #3a5a40;
         }
-
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
         body {
             text-align: center;
-        }
-
-        label {
-            float: left;
-        }
-
-        .input {
-            float:right;
         }
 
         /* page styling */
@@ -123,10 +114,6 @@
             </header>
             <br>
             <?php
-                $login = $_POST['login'];
-                if(isset($login)) {
-                    echo "<meta http-equiv='refresh' content='0; URL=index.php'/>";
-                }
                 $servername = "localhost";
                 $username = "user";
                 $passwd = "CSU-CSCI490rrl";
@@ -135,113 +122,117 @@
                 if(!$conn) {
                     die("Connection failed: " . $conn->connect_error);
                 }
-                $user = $_SESSION["user"];
-                $authenticate = "SELECT * FROM user WHERE email='" . $user . "'";
-                $getinfo = mysqli_query($conn, $authenticate);
-                $first;
-                $last;
-                $em;
-                $pass;
-                $phone;
-                echo "<br><br><br><br>";
-                #echo "<div style='display:inline-block; text-align:left; padding-top: 50px' width='500px'>";
-                while($row = mysqli_fetch_assoc($getinfo)) {
-                    $first = $row["firstName"];
-                    $last = $row["lastName"];
-                    $em = $row["email"];
-                    $phone = $row["phone"];
-                    $pass = $row["password"];
-                    echo "<div style='display:inline-block; text-align:left; padding-top: 50px' width='500px'>
-                    <label>First Name: </label> 
-                    <input type='text' name='fname' class='input' value='" . $first . "'>
-                    <br> <br>
-                    <label>Last Name: </label>
-                    <input type='text' name='lname' class='input' value='" . $last . "'>
-                    <br> <br>
-                    <label>Phone Number: </label>
-                    <input type='text' name='number' class='input' value='" . $phone . "'>
-                    <br> <br>
-                    <label>Email: </label>
-                    <input type='text' name='email' class='input' value='" . $em . "'>
-                    </div>
-                    <br> <br> <br>";
+                
+                $login = $_POST['login'];
+                if(isset($login)) {
+                    echo "<meta http-equiv='refresh' content='0; URL=index.php'/>";
                 }
-                echo "<input type='submit' class='submit' name='edit' value='Edit Details'><br>";
-                echo "<div style='display:inline-block; text-align:left; padding-top: 50px' width='500px'>";
-                echo "<label>Current Password: </label>
-                    <input type='password' name='pwd' class='input'>
-                    <br> <br>
-                    <label>New Password: </label>
-                    <input type='password' name='newpwd' class='input'>
-                    </div>
-                    <br> <br> <br>
-                    <input type='submit' class='submit' name='pchange' value='Change Password'><br><br>";
 
-                $edit = $_POST['edit'];
-                $change = $_POST['pchange'];
-                $fname = $_POST['fname'];
-                $lname = $_POST['lname'];
-                $number = $_POST['number'];
-                $ema = $_POST['email'];
-                $curr = $_POST['pwd'];
-                $new = $_POST['newpwd'];
-
-                if(isset($edit)) {
-                    if($fname != NULL && $lname != NULL && $number != NULL && $ema != NULL) {
-                        $updateInfo = "UPDATE user SET firstName='" . $fname . "', lastName='" . $lname ."', phone='" . $number . "', email='" . $ema . "' WHERE email='" . $user . "'";
+                $authenticate = "SELECT * FROM user WHERE privilege='c'";
+                $getinfo = mysqli_query($conn, $authenticate);
+                $show = "SELECT * FROM user WHERE privilege='c'";
+                $list = mysqli_query($conn, $show);
+                echo "<br><br>";
+                if(mysqli_num_rows($getinfo) == 0) {
+                    echo "There are no client accounts";
+                }
+                else {
+                    echo "<label for='clients'>Edit client: </label>";
+                    echo "<select name='clients' id='clients'>";
+                    while($row = mysqli_fetch_assoc($list)) {
+                        echo "<option value='" . $row["email"] . "'>" . $row["firstName"] . " " . $row["lastName"] . "</option>";
+                    }
+                    echo "</select>";
+                    echo "<select name='skill' id='skill'>";
+                    echo "<option value='b'>Beginner</option>";
+                    echo "<option value='i'>Intermediate</option>";
+                    echo "<option value='a'>Advanced</option>";
+                    echo "</select>";
+                    echo "<select name='activity' id='activity'>";
+                    echo "<option value='a'>Active</option>";
+                    echo "<option value='i'>Inactive</option>";
+                    echo "</select>";
+                    echo "&emsp; &emsp;<input type='submit' class='submit' name='edit' value='Edit Client'>";
+                    echo "&emsp; &emsp;<input type='submit' class='submit' name='delete' value='Delete Client' onclick='clicked(event)'><br>";
+                    $edit = $_POST["edit"];
+                    $delete = $_POST["delete"];
+                    $cname = $_POST["clients"];
+                    $cskill = $_POST["skill"];
+                    $cactivity = $_POST["activity"];
+                    if(isset($edit)) {
+                        $updateInfo = "UPDATE user SET skill='" . $cskill . "', active='" . $cactivity . "' WHERE email='" . $cname . "'";
                         if($conn->query($updateInfo)) {
                             echo "<div class='alert success'>
-                                    <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                    Account successfully updated.
-                                    </div>";
-                                    echo "<meta http-equiv='refresh' content='5'>";
+                            <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
+                            Account successfully updated.
+                            </div>";
+                            echo "<meta http-equiv='refresh' content='5'>";
                         }
                         else {
-                            echo "<div class='alert'>
+                            "<div class='alert'>
                                 <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
                                 Error updating account.
                                 </div>";
                         }
                     }
-                    else {
-                        echo "<div class='alert'>
-                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                Please enter information in all fields.
-                                </div>";
-                    }
-                }
-                
-                if(isset($change)) {
-                    if($curr != NULL && $new != NULL) {
-                        if($curr == $pass) {
-                            $updatePass = "UPDATE user SET password='" . $new . "' WHERE email='" . $user . "'";
-                            if($conn->query($updatePass)) {
-                                echo "<div class='alert success'>
+                    if(isset($delete)) {
+                        $deleteInfo = "DELETE FROM user WHERE email='" . $cname . "'";
+                        if($conn->query($deleteInfo)) {
+                            echo "<div class='alert success'>
                                     <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                    Password successfully updated.
+                                    Account successfully deleted.
                                     </div>";
-                                    echo "<meta http-equiv='refresh' content='5'>";
-                            }
-                            else {
-                                echo "<div class='alert'>
-                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                Error updating account.
-                                </div>";
-                            }
+                            echo "<meta http-equiv='refresh' content='5'>";
                         }
                         else {
-                            echo "<div class='alert'>
+                            "<div class='alert'>
                                 <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                Password incorrect.
+                                Error deleting account.
                                 </div>";
                         }
                     }
-                    else {
-                        echo "<div class='alert'>
-                                <span class='closebtn' onclick='this.parentElement.style.display='none';'>&times;</span>
-                                Please enter information in all fields.
-                                </div>";
+                    echo "<br><br>";
+                    echo "<center>";
+                    echo "<table style='width=100%'>";
+                    echo "<tr>";
+                    echo "<th>First Name</th>";
+                    echo "<th>Last Name</th>";
+                    echo "<th>Email</th>";
+                    echo "<th>Phone Number</th>";
+                    echo "<th>Skill Level</th>";
+                    echo "<th>Activity</th>";
+                    echo "</tr>";
+                    while($row = mysqli_fetch_assoc($getinfo)) {
+                        echo "<tr>";
+                        if($row["privilege"] == "c") {
+                            echo "<td>" . $row["firstName"] . "</td>";
+                            echo "<td>" . $row["lastName"] . "</td>";
+                            echo "<td><a href='mailto:" . $row["email"] . "' style='color:black'>" . $row["email"] . "</a></td>";
+                            echo "<td>" . $row["phone"] . "</td>";
+                            
+                            if($row["skill"] == "b") {
+                                echo "<td>Beginner</td>";
+                            }
+                            else if($row["skill"] == "i") {
+                                echo "<td>Intermediate</td>";
+                            }
+                            else if($row["skill"] == "a") {
+                                echo "<td>Advanced</td>";
+                            }
+
+                            echo " &emsp; &emsp;";
+
+                            if($row["active"] == "a") {
+                                echo "<td>Active</td>";
+                            } 
+                            else if($row["active"] == "i") {
+                                echo "<td>Inactive</td>";
+                            }
+                        }
+                        echo "</tr>";
                     }
+                    echo "</center>";
+                    echo "<br><br>";
                 }
                 echo "<script>
                 // Get all elements with class='closebtn'
@@ -261,6 +252,13 @@
         
                         // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
                         setTimeout(function(){ div.style.display = 'none'; }, 600);
+                    }
+                }
+
+                function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
                     }
                 }
                 </script>";
